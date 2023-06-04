@@ -46,7 +46,7 @@ export class GitHubStack extends cdk.Stack {
       },
     };
 
-    new iam.Role(this, 'cloudNationGitHubDeployRole', {
+    new iam.Role(this, 'dsmithitHubDeployRole', {
       assumedBy: new iam.WebIdentityPrincipal(ghProvider.openIdConnectProviderArn, conditions),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess'),
@@ -60,11 +60,11 @@ export class GitHubStack extends cdk.Stack {
 
 
 const app = new cdk.App();
-new GitHubStack(app, 'GitHubOpenIDConnect', {
-  deployRole: 'exampleGitHubDeployRole',
+new GitHubStack(app, 'dsmithGitHubOpenIDConnect', {
+  deployRole: 'ODICGitHubDeployRole',
   repositoryConfig: [
-    { owner: 'dannysteenman', repo: 'aws-cdk-examples' },
-    { owner: 'dannysteenman', repo: 'aws-toolbox', filter: 'main' },
+    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-pecan', filter: 'main' },
+    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-hazelnut', filter: 'main' },
   ],
 });
 app.synth();
