@@ -1,30 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
-
 export interface GitHubStackProps extends cdk.StackProps {
-  /**
-    * Name of the deploy role to assume in GitHub Actions.
-    *
-    * @default - 'exampleGitHubDeployRole'
-    */
+
   readonly deployRole: string;
-  /**
-   * The sub prefix string from the JWT token used to be validated by AWS. Appended after `repo:${owner}/${repo}:`
-   * in an IAM role trust relationship. The default value '*' indicates all branches and all tags from this repo.
-   *
-   * Example:
-   * repo:octo-org/octo-repo:ref:refs/heads/demo-branch - only allowed from `demo-branch`
-   * repo:octo-org/octo-repo:ref:refs/tags/demo-tag - only allowed from `demo-tag`.
-   * repo:octo-org/octo-repo:pull_request - only allowed from the `pull_request` event.
-   * repo:octo-org/octo-repo:environment:Production - only allowd from `Production` environment name.
-   *
-   * @default '*'
-   * @see https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#configuring-the-oidc-trust-with-the-cloud
-   */
   readonly repositoryConfig: { owner: string; repo: string; filter?: string }[];
 }
-
 export class GitHubStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: GitHubStackProps) {
     super(scope, id, props);
@@ -37,7 +18,7 @@ export class GitHubStack extends cdk.Stack {
     });
 
     const iamRepoDeployAccess = props.repositoryConfig.map(r =>
-      `repo:${r.owner}/${r.repo}:${r.filter ?? '*'}`);
+        `repo:${r.owner}/${r.repo}:${r.filter ?? '*'}`);
 
     // grant only requests coming from a specific GitHub repository.
     const conditions: iam.Conditions = {
@@ -46,7 +27,7 @@ export class GitHubStack extends cdk.Stack {
       },
     };
 
-    new iam.Role(this, 'dsmithitHubDeployRole', {
+    new iam.Role(this, 'cloudNationGitHubDeployRole', {
       assumedBy: new iam.WebIdentityPrincipal(ghProvider.openIdConnectProviderArn, conditions),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess'),
@@ -58,13 +39,13 @@ export class GitHubStack extends cdk.Stack {
   }
 }
 
-
 const app = new cdk.App();
-new GitHubStack(app, 'dsmithGitHubOpenIDConnect', {
-  deployRole: 'ODICGitHubDeployRole',
+new GitHubStack(app, 'GitHubOpenIDConnect', {
+  deployRole: 'exampleGitHubDeployRole',
   repositoryConfig: [
-    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-pecan', filter: 'main' },
-    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-hazelnut', filter: 'main' },
+    { owner: 'dannysteenman', repo: 'aws-cdk-examples' },
+    { owner: 'dannysteenman', repo: 'aws-toolbox', filter: 'main' },
   ],
 });
 app.synth();
+}
