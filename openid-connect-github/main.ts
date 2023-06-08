@@ -43,8 +43,8 @@ const app = new cdk.App();
 new GitHubStack(app, 'GitHubOpenIDConnect', {
   deployRole: 'exampleGitHubDeployRole',
   repositoryConfig: [
-    { owner: 'dannysteenman', repo: 'aws-cdk-examples' },
-    { owner: 'dannysteenman', repo: 'aws-toolbox', filter: 'main' },
+    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-pecan', filter: 'main' },
+    { owner: 'davidwsmith-bjss', repo: 'gh-actions-dev-hazelnut', filter: 'main' },
   ],
 });
 app.synth();
