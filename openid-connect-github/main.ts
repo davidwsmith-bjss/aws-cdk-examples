@@ -48,4 +48,3 @@ new GitHubStack(app, 'GitHubOpenIDConnect', {
   ],
 });
 app.synth();
-}
