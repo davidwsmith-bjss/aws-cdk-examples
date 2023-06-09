@@ -1,5 +1,5 @@
 name: dev-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} is learning GitHub Actions; a school day!
 on: [push]
 jobs:
   check-bats-version:
