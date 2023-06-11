@@ -1,4 +1,4 @@
-import * as cdk from 'aws-cdk-lib';
+import  cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 export interface GitHubStackProps extends cdk.StackProps {
@@ -27,7 +27,7 @@ export class GitHubStack extends cdk.Stack {
       },
     };
 
-    new iam.Role(this, 'cloudNationGitHubDeployRole', {
+    new iam.Role(this, 'GitHubDeployRole', {
       assumedBy: new iam.WebIdentityPrincipal(ghProvider.openIdConnectProviderArn, conditions),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess'),
