@@ -1,6 +1,4 @@
-import cdk, {Duration} from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { Construct } from 'constructs';
+import {Duration} from 'aws-cdk-lib';
 import {
     OpenIdConnectPrincipal,
     OpenIdConnectProvider,
