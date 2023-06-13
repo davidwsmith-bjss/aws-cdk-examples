@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - oak-spey
-  workflow_dispatch: {}
 jobs:
   deploy:
     name: Deploy CDK stacks to test
